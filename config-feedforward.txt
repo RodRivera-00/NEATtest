@@ -10,7 +10,7 @@ reset_on_extinction   = False
 # node activation options
 activation_default      = sigmoid
 activation_mutate_rate  = 0.15
-activation_options      = sigmoid abs clamped cube gauss
+activation_options      = sigmoid abs clamped gauss
 
 # node aggregation options
 aggregation_default     = sum
