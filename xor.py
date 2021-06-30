@@ -74,12 +74,12 @@ def eval_genome(genome, config):
                         if round(openlong) == 1:
                             position = 1
                             openprice = ohlcv[4]
-                            amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
+                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 5) / 100) * balance
                         #open short
                         if round(openshort) == 1:
                             position = -1
                             openprice = ohlcv[4]
-                            amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
+                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 5) / 100) * balance
                         #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
                 #close position
                 if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
@@ -119,8 +119,7 @@ def run():
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
-    pop.add_reporter(neat.Checkpointer(5))
-
+    pop.add_reporter(neat.Checkpointer(100))
     pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
     winner = pop.run(pe.evaluate)
 
