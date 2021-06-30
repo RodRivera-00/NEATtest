@@ -35,6 +35,7 @@ def eval_genome(genome, config):
         pnl = 0
         openprice = 0
         amount = 0
+        lowestpnl = 0
         for data in forex:
             ohlcv = data.split(',')
             #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
@@ -51,6 +52,8 @@ def eval_genome(genome, config):
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
             if position == 0:
                 pnl = 0
+            if lowestpnl > pnl:
+                lowestpnl = pnl
             ohlcv.append(pnl)
             #break if pnl < balance
             if pnl > balance:
@@ -95,7 +98,7 @@ def eval_genome(genome, config):
                     
         #print(balance)
         done = True
-    return balance
+    return balance - lowestpnl
 
 
 def eval_genomes(genomes, config):
