@@ -81,6 +81,8 @@ def eval_genome(genome, config):
                         #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
                 #close position
                 if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
+                    #add reward for every closing trade
+                    balance += 1
                     openprice = 0
                     balance = balance + pnl
                     #print(balance)
@@ -113,6 +115,7 @@ def run():
     stats = neat.StatisticsReporter()
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
+    pop.add_reporter(neat.Checkpointer(5))
 
     pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
     winner = pop.run(pe.evaluate)
