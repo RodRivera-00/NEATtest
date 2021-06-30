@@ -13,6 +13,7 @@ import numpy as np
 import time
 import random
 import datetime
+import math
 #import file
 file1 = open('processed.csv', 'r')
 forex = file1.readlines()
@@ -29,6 +30,7 @@ def eval_genome(genome, config):
         balance = 1000
         pnl = 0
         fitness = 0
+        highest = balance
         done = False
         while done == False:
             position = 0 #0 for nothing, 1 for long, -1 for short
@@ -88,11 +90,13 @@ def eval_genome(genome, config):
                     #print(balance)
                     position = 0
                     amount = 0
+                    if balance > highest:
+                        highest = balance
                     #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
                         
             #print(balance)
             done = True
-        fitnesses.append(balance)
+        fitnesses.append(balance + math.sqrt(highest))
 
     return np.mean(fitnesses)
 
