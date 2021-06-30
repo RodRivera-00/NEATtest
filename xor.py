@@ -70,6 +70,7 @@ def eval_genome(genome, config):
                 if position == 0 and round(opentrade) == 1:
                     #check if both 0 or 1
                     if round(openlong) != round(openshort):
+                        balance += 5
                         #open long
                         if round(openlong) == 1:
                             position = 1
@@ -86,7 +87,6 @@ def eval_genome(genome, config):
                 #close position
                 if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
                     #add reward for every closing trade
-                    balance += 1
                     openprice = 0
                     balance = balance + pnl
                     #print(balance)
