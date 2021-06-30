@@ -86,7 +86,7 @@ def eval_genome(genome, config):
                     #print(balance)
                     position = 0
                     amount = 0
-                    print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
+                    #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
                         
             #print(balance)
             done = True
