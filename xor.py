@@ -48,9 +48,9 @@ def eval_genome(genome, config):
                 ohlcv.append(position)
                 #append pnl
                 if position == 1 :
-                    pnl = ((ohlcv[4] - openprice) * 100) * (amount / ohlcv[4])
+                    pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
                 if position == -1:
-                    pnl = ((openprice - ohlcv[4]) * 100) * (amount / ohlcv[4])
+                    pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
                 if position == 0:
                     pnl = 0
                 ohlcv.append(pnl)
@@ -63,7 +63,7 @@ def eval_genome(genome, config):
                 ohlcv.append(openprice)
                 #append balance
                 ohlcv.append(balance)
-                opentrade, closetrade, openlong, openshort, amt1, amt2, amt3, amt4, amt5 = net.activate(ohlcv)
+                opentrade, closetrade, openlong, openshort = net.activate(ohlcv)
                 #check if both 0 or 1
                 #print(round(opentrade) != round(closetrade))
                 balance -= 1
@@ -74,12 +74,14 @@ def eval_genome(genome, config):
                         if round(openlong) == 1:
                             position = 1
                             openprice = ohlcv[4]
-                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 1) / 100) * balance
+                            amount = balance * 0.01
+                            balance -= amount * 0.003
                         #open short
                         if round(openshort) == 1:
                             position = -1
                             openprice = ohlcv[4]
-                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 1) / 100) * balance
+                            amount = balance * 0.01
+                            balance -= amount * 0.003
                         #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
                 #close position
                 if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
