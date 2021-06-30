@@ -98,12 +98,14 @@ def eval_genome(genome, config):
                     
         #print(balance)
         done = True
-    return balance - lowestpnl
+    return balance + lowestpnl
 
 
 def eval_genomes(genomes, config):
+    highest = 0
     for genome_id, genome in genomes:
         genome.fitness = eval_genome(genome, config)
+        if genome.
 
 
 def run():
@@ -120,7 +122,7 @@ def run():
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
     pop.add_reporter(neat.Checkpointer(100))
-    #pop = neat.Checkpointer.restore_checkpoint('winner')
+    pop = neat.Checkpointer.restore_checkpoint('winner')
     pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
     winner = pop.run(pe.evaluate)
 
