@@ -71,7 +71,7 @@ def eval_genome(genome, config):
                     #check if both 0 or 1
                     if round(openlong) != round(openshort):
                         #open long
-                        balance += 0.01
+                        balance += 0.1
                         if round(openlong) == 1:
                             position = 1
                             openprice = ohlcv[4]
