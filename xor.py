@@ -90,6 +90,7 @@ def eval_genome(genome, config):
                     #print(round(closetrade))
                     #print(position != 0 and round(closetrade) == 1)
                     if round(position) != 0 and round(closetrade) == 1:
+                        balance += 50
                         openprice = 0
                         balance = balance + pnl
                         #print(balance)
