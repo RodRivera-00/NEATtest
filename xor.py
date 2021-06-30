@@ -66,7 +66,6 @@ def eval_genome(genome, config):
                 opentrade, closetrade, openlong, openshort = net.activate(ohlcv)
                 #check if both 0 or 1
                 #print(round(opentrade) != round(closetrade))
-                balance -= 1
                 if position == 0 and round(opentrade) == 1:
                     #check if both 0 or 1
                     if round(openlong) != round(openshort):
