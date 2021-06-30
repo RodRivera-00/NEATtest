@@ -51,6 +51,7 @@ def eval_genome(genome, config):
             if position == -1:
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
             if position == 0:
+                balance -= 1
                 pnl = 0
             if lowestpnl > pnl:
                 lowestpnl = pnl
