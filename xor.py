@@ -95,7 +95,8 @@ def eval_genome(genome, config):
                 if balance > highest:
                     highest = balance
                 #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-                    
+            if balance < 100:
+                balance = 0   
         #print(balance)
         done = True
     if balance == 1000:
