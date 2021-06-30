@@ -37,11 +37,7 @@ def eval_genome(genome, config):
             pnl = 0
             openprice = 0
             amount = 0
-            tickcount = 0
-
             for data in forex:
-                if position != 0:
-                    tickcount += 1
                 ohlcv = data.split(',')
                 #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
                 #convert date to timestamp
@@ -88,7 +84,7 @@ def eval_genome(genome, config):
                             balance -= amount * 0.003
                         #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
                 #close position
-                if round(position) != 0 and round(closetrade) == 1 and pnl != 0 and tickcount > 4:
+                if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
                     #add reward for every closing trade
                     openprice = 0
                     balance = balance + pnl
