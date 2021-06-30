@@ -97,7 +97,7 @@ def eval_genome(genome, config):
                         
             #print(balance)
             done = True
-        fitnesses.append(balance + (highest ** (1/3)))
+        fitnesses.append(balance)
 
     return np.mean(fitnesses)
 
