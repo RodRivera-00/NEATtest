@@ -26,7 +26,7 @@ def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
     fitnesses = []
     for runs in range(runs_per_net):
-        balance = 1000
+        balance = 100000
         pnl = 0
         fitness = 0
         done = False
