@@ -1,9 +1,9 @@
 #--- parameters for the XOR-2 experiment ---#
 
 [NEAT]
-fitness_criterion     = mean
-fitness_threshold     = 10000
-pop_size              = 1000
+fitness_criterion     = max
+fitness_threshold     = 25000
+pop_size              = 2000
 reset_on_extinction   = False
 
 [DefaultGenome]
