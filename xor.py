@@ -30,6 +30,7 @@ def eval_genome(genome, config):
         pnl = 0
         fitness = 0
         done = False
+        highest = balance
         while done == False:
             position = 0 #0 for nothing, 1 for long, -1 for short
             pnl = 0
@@ -86,11 +87,13 @@ def eval_genome(genome, config):
                     #print(balance)
                     position = 0
                     amount = 0
+                    if balance > highest:
+                        highest = balance
                     #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
                         
             #print(balance)
             done = True
-        fitnesses.append(balance)
+        fitnesses.append(balance + highest)
 
     return np.mean(fitnesses)
 
