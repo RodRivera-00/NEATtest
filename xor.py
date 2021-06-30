@@ -121,7 +121,7 @@ def run():
     pop.add_reporter(stats)
     pop.add_reporter(neat.StdOutReporter(True))
     pop.add_reporter(neat.Checkpointer(100))
-    #pop = neat.Checkpointer.restore_checkpoint('neat-checkpoint-855')
+    #pop = neat.Checkpointer.restore_checkpoint('neat-checkpoint-855.gz')
     pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
     winner = pop.run(pe.evaluate)
 
