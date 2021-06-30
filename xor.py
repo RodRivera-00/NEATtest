@@ -67,9 +67,11 @@ def eval_genome(genome, config):
                 balance -= 1
                 if round(opentrade) != round(closetrade):
                     #open position
+                    balance += 5
                     if position == 0 and round(opentrade) == 1:
                         #check if both 0 or 1
                         if round(openlong) != round(openshort):
+                            balance += 5
                             #open long
                             if round(openlong) == 1:
                                 position = 1
