@@ -74,12 +74,12 @@ def eval_genome(genome, config):
                         if round(openlong) == 1:
                             position = 1
                             openprice = ohlcv[4]
-                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 5) / 100) * balance
+                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 1) / 100) * balance
                         #open short
                         if round(openshort) == 1:
                             position = -1
                             openprice = ohlcv[4]
-                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 5) / 100) * balance
+                            amount = (((amt1 + amt2 + amt3 + amt4 + amt5) * 1) / 100) * balance
                         #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
                 #close position
                 if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
@@ -96,7 +96,7 @@ def eval_genome(genome, config):
                         
             #print(balance)
             done = True
-        fitnesses.append(balance + math.sqrt(highest))
+        fitnesses.append(balance + (highest ** (1/3))))
 
     return np.mean(fitnesses)
 
