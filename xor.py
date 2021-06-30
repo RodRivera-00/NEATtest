@@ -105,7 +105,6 @@ def eval_genomes(genomes, config):
     highest = 0
     for genome_id, genome in genomes:
         genome.fitness = eval_genome(genome, config)
-        if genome.
 
 
 def run():
