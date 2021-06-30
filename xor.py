@@ -20,7 +20,7 @@ forex = [i.strip() for i in forex]
 forex = forex[::-1]
 
 
-runs_per_net = 2
+runs_per_net = 10
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
