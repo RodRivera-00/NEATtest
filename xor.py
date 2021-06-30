@@ -20,13 +20,13 @@ forex = [i.strip() for i in forex]
 forex = forex[::-1]
 
 
-runs_per_net = 10
+runs_per_net = 2
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
     fitnesses = []
     for runs in range(runs_per_net):
-        balance = 100000
+        balance = 1000
         pnl = 0
         fitness = 0
         done = False
@@ -65,40 +65,28 @@ def eval_genome(genome, config):
                 #check if both 0 or 1
                 #print(round(opentrade) != round(closetrade))
                 balance -= 1
-                if round(opentrade) != round(closetrade):
-                    #open position
-                    balance += 5
-                    if position == 0 and round(opentrade) == 1:
-                        #check if both 0 or 1
-                        if round(openlong) != round(openshort):
-                            balance += 5
-                            #open long
-                            if round(openlong) == 1:
-                                position = 1
-                                openprice = ohlcv[4]
-                                amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
-                            #open short
-                            if round(openshort) == 1:
-                                position = -1
-                                openprice = ohlcv[4]
-                                amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
-                            #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
-                        else:
-                            balance -= 5
-                    #close position
-                    #print(position)
-                    #print(round(closetrade))
-                    #print(position != 0 and round(closetrade) == 1)
-                    if round(position) != 0 and round(closetrade) == 1:
-                        balance += 50
-                        openprice = 0
-                        balance = balance + pnl
-                        #print(balance)
-                        position = 0
-                        amount = 0
-                        #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-                else:
-                    balance -= 5
+                if position == 0 and round(opentrade) == 1:
+                    #check if both 0 or 1
+                    if round(openlong) != round(openshort):
+                        #open long
+                        if round(openlong) == 1:
+                            position = 1
+                            openprice = ohlcv[4]
+                            amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
+                        #open short
+                        if round(openshort) == 1:
+                            position = -1
+                            openprice = ohlcv[4]
+                            amount = (amt1 + amt2 + amt3 + amt4 + amt5) * 10
+                        #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
+                #close position
+                if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
+                    openprice = 0
+                    balance = balance + pnl
+                    #print(balance)
+                    position = 0
+                    amount = 0
+                    print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
                         
             #print(balance)
             done = True
