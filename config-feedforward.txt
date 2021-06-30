@@ -72,7 +72,7 @@ weight_replace_rate     = 0.02
 compatibility_threshold = 3.0
 
 [DefaultStagnation]
-species_fitness_func = mean
+species_fitness_func = max
 max_stagnation       = 15
 
 [DefaultReproduction]
