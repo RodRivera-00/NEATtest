@@ -74,13 +74,13 @@ def eval_genome(genome, config):
                     if round(openlong) == 1:
                         position = 1
                         openprice = ohlcv[4]
-                        amount = balance * 0.1
+                        amount = balance * 0.5
                         balance -= amount * 0.003
                     #open short
                     if round(openshort) == 1:
                         position = -1
                         openprice = ohlcv[4]
-                        amount = balance * 0.1
+                        amount = balance * 0.5
                         balance -= amount * 0.003
                     #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
