@@ -29,7 +29,6 @@ def eval_genome(genome, config):
     fitness = 0
     highest = balance
     done = False
-    tickcount = 0
     nontrade = 0
     while done == False:
         position = 0 #0 for nothing, 1 for long, -1 for short
@@ -58,7 +57,6 @@ def eval_genome(genome, config):
             #append open trade
             ohlcv.append(position)
             #append pnl
-            tickcount += 1
             if position == 1 :
                 nontrade = 0
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
@@ -77,9 +75,9 @@ def eval_genome(genome, config):
             if pnl > balance:
                 balance = 0
                 done = True
-                return balance + tickcount
+                return balance
             if nontrade > 30:
-                return -5000 + tickcount
+                return -5000
             #append openprice
             ohlcv.append(openprice)
             #append balance
@@ -120,7 +118,7 @@ def eval_genome(genome, config):
         done = True
     if balance == 1000:
         balance = -1000
-    return balance + tickcount
+    return balance
 
 
 def eval_genomes(genomes, config):
