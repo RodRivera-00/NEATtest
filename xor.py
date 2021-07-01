@@ -116,7 +116,7 @@ def eval_genome(genome, config):
                 balance = 0   
         #print(balance)
         done = True
-    if balance == 1000:
+    if balance < 1000:
         balance = -1000
     return balance
 
