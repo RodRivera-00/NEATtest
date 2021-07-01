@@ -37,13 +37,21 @@ def eval_genome(genome, config):
         openprice = 0
         amount = 0
         lowestpnl = 0
-        for data in forex:
+        for index, data in forex:
             ohlcv = data.split(',')
             #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
             #convert date to timestamp
             #ohlcv[0] = time.mktime(datetime.datetime.strptime(ohlcv[0], "%Y-%m-%d %H:%M:%S").timetuple())
             #convert to string
             ohlcv = [float(i) for i in ohlcv]
+            
+            #previousdata
+            prev1 = forex[index -1].split(',')
+            prev1 = [float(i) for i in ohlcv]
+            ohlcv = ohlcv + prev1
+            prev2 = forex[index -2].split(',')
+            prev2= [float(i) for i in ohlcv]
+            ohlcv = ohlcv + prev2
             #append open trade
             ohlcv.append(position)
             #append pnl
@@ -66,26 +74,26 @@ def eval_genome(genome, config):
                 balance = 0
                 done = True
                 return balance + lowestpnl
-            if nontrade > 50:
+            if nontrade > 120:
                 return -5000
             #append openprice
             ohlcv.append(openprice)
             #append balance
             ohlcv.append(balance)
-            opentrade, closetrade, openlong, openshort = net.activate(ohlcv)
+            closetrade, openlong, openshort = net.activate(ohlcv)
             #check if both 0 or 1
             #print(round(opentrade) != round(closetrade))
-            if position == 0 and round(opentrade) == 1:
+            if position == 0:
                 #check if both 0 or 1
                 if round(openlong) != round(openshort):
                     #open long
-                    if round(openlong) == 1:
+                    if openlong > openshort:
                         position = 1
                         openprice = ohlcv[4]
                         amount = balance * 0.25
                         balance -= amount * 0.003
                     #open short
-                    if round(openshort) == 1:
+                    if openshort > openlong 1:
                         position = -1
                         openprice = ohlcv[4]
                         amount = balance * 0.25
