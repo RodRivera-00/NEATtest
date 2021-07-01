@@ -37,6 +37,7 @@ def eval_genome(genome, config):
         openprice = 0
         amount = 0
         lowestpnl = 0
+        highestpnl = 0
         for index, data in enumerate(forex):
             ohlcv = data.split(',')
             #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
@@ -70,6 +71,8 @@ def eval_genome(genome, config):
                 pnl = 0
             if lowestpnl > pnl:
                 lowestpnl = pnl
+            if pnl > highestpnl:
+                highestpnl = pnl
             ohlcv.append(pnl)
             #break if pnl < balance
             if pnl > balance:
