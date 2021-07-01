@@ -119,7 +119,7 @@ def eval_genome(genome, config):
         done = True
     if balance == 1000:
         balance = -1000
-    return balance + lowestpnl
+    return balance
 
 
 def eval_genomes(genomes, config):
