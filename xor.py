@@ -58,14 +58,13 @@ def eval_genome(genome, config):
             #append open trade
             ohlcv.append(position)
             #append pnl
+            tickcount += 1
             if position == 1 :
                 nontrade = 0
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
-                tickcount += 1
             if position == -1:
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
-                tickcount += 1
             if position == 0:
                 nontrade += 1
                 pnl = 0
@@ -95,24 +94,23 @@ def eval_genome(genome, config):
                     if openlong > openshort:
                         position = 1
                         openprice = ohlcv[4]
-                        amount = balance * 0.25
+                        amount = balance * 0.05
                         balance -= amount * 0.003
                     #open short
                     if openshort > openlong:
                         position = -1
                         openprice = ohlcv[4]
-                        amount = balance * 0.25
+                        amount = balance * 0.05
                         balance -= amount * 0.003
                     #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
-            if round(position) != 0 and round(closetrade) == 1 and pnl != 0 and tickcount > 10:
+            if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
                 #add reward for every closing trade
                 openprice = 0
                 balance = balance + pnl
                 #print(balance)
                 position = 0
                 amount = 0
-                tickcount = 0
                 if balance > highest:
                     highest = balance
                 #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
@@ -122,7 +120,7 @@ def eval_genome(genome, config):
         done = True
     if balance == 1000:
         balance = -1000
-    return balance
+    return balance + tickcount
 
 
 def eval_genomes(genomes, config):
