@@ -93,7 +93,7 @@ def eval_genome(genome, config):
                         amount = balance * 0.25
                         balance -= amount * 0.003
                     #open short
-                    if openshort > openlong 1:
+                    if openshort > openlong:
                         position = -1
                         openprice = ohlcv[4]
                         amount = balance * 0.25
