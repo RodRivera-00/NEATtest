@@ -79,7 +79,7 @@ def eval_genome(genome, config):
                 balance = 0
                 done = True
                 return balance + lowestpnl
-            if nontrade > 120:
+            if nontrade > 30:
                 return -5000
             #append openprice
             ohlcv.append(openprice)
@@ -116,7 +116,7 @@ def eval_genome(genome, config):
                 if balance > highest:
                     highest = balance
                 #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-            if balance < 100:
+            if balance < 1:
                 balance = 0   
         #print(balance)
         done = True
@@ -126,11 +126,8 @@ def eval_genome(genome, config):
 
 
 def eval_genomes(genomes, config):
-    highest = 0
     for genome_id, genome in genomes:
         genome.fitness = eval_genome(genome, config)
-
-
 def run():
     # Load the config file, which is assumed to live in
     # the same directory as this script.
