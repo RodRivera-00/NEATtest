@@ -59,7 +59,7 @@ def eval_genome(genome, config):
             if pnl > balance:
                 balance = 0
                 done = True
-                break
+                return balance + lowestpnl
             #append openprice
             ohlcv.append(openprice)
             #append balance
