@@ -30,6 +30,7 @@ def eval_genome(genome, config):
     highest = balance
     done = False
     tickcount = 0
+    nontrade = 0
     while done == False:
         position = 0 #0 for nothing, 1 for long, -1 for short
         pnl = 0
@@ -47,12 +48,15 @@ def eval_genome(genome, config):
             ohlcv.append(position)
             #append pnl
             if position == 1 :
+                nontrade = 0
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
                 tickcount += 1
             if position == -1:
+                nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
                 tickcount += 1
             if position == 0:
+                nontrade += 1
                 pnl = 0
             if lowestpnl > pnl:
                 lowestpnl = pnl
@@ -62,6 +66,8 @@ def eval_genome(genome, config):
                 balance = 0
                 done = True
                 return balance + lowestpnl
+            if nontrade > 50:
+                return -5000
             #append openprice
             ohlcv.append(openprice)
             #append balance
