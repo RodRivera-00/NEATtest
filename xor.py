@@ -77,9 +77,9 @@ def eval_genome(genome, config):
             if pnl > balance:
                 balance = 0
                 done = True
-                return balance + lowestpnl
+                return balance + tickcount
             if nontrade > 30:
-                return -5000
+                return -5000 + tickcount
             #append openprice
             ohlcv.append(openprice)
             #append balance
