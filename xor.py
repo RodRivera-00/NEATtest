@@ -37,21 +37,23 @@ def eval_genome(genome, config):
         openprice = 0
         amount = 0
         lowestpnl = 0
-        for index, data in forex:
+        for index, data in enumerate(forex):
             ohlcv = data.split(',')
             #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
             #convert date to timestamp
             #ohlcv[0] = time.mktime(datetime.datetime.strptime(ohlcv[0], "%Y-%m-%d %H:%M:%S").timetuple())
             #convert to string
             ohlcv = [float(i) for i in ohlcv]
-            
             #previousdata
             prev1 = forex[index -1].split(',')
             prev1 = [float(i) for i in ohlcv]
+            prev1.pop(0)
             ohlcv = ohlcv + prev1
-            prev2 = forex[index -2].split(',')
+            prev2 = forex[index -2].split(',').pop(0)
             prev2= [float(i) for i in ohlcv]
+            prev2.pop(0)
             ohlcv = ohlcv + prev2
+            #print(ohlcv)
             #append open trade
             ohlcv.append(position)
             #append pnl
