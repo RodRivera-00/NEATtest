@@ -29,7 +29,7 @@ def eval_genome(genome, config):
     fitness = 0
     highest = balance
     done = False
-    
+    tickcount = 0
     while done == False:
         position = 0 #0 for nothing, 1 for long, -1 for short
         pnl = 0
@@ -48,8 +48,10 @@ def eval_genome(genome, config):
             #append pnl
             if position == 1 :
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
+                tickcount += 1
             if position == -1:
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
+                tickcount += 1
             if position == 0:
                 pnl = 0
             if lowestpnl > pnl:
@@ -84,9 +86,11 @@ def eval_genome(genome, config):
                         balance -= amount * 0.003
                     #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
-            if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
+            if round(position) != 0 and round(closetrade) == 1 and pnl != 0 and tickcount > 10:
                 #add reward for every closing trade
                 openprice = 0
+                if pnl < 0:
+                    pnl *= 10
                 balance = balance + pnl
                 #print(balance)
                 position = 0
