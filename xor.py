@@ -24,7 +24,7 @@ forex = forex[::-1]
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
-    balance = 1000
+    balance = 10000000
     pnl = 0
     fitness = 0
     highest = balance
@@ -70,13 +70,13 @@ def eval_genome(genome, config):
                 ticks += 1
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
-            #if pnl < amount:
-            #    position  = 0
-            #    openprice = 0
-            #    balance = balance + pnl
-            #    amount = 0
-            #    if balance > highest:
-            #        highest = balance
+            if pnl < amount:
+                position  = 0
+                openprice = 0
+                balance = balance + pnl
+                amount = 0
+                if balance > highest:
+                    highest = balance
             if lowestpnl > pnl:
                 lowestpnl = pnl
             if pnl > highestpnl:
@@ -84,10 +84,10 @@ def eval_genome(genome, config):
             ohlcv.append(pnl)
             ohlcv.append(position)
             #break if pnl < balance
-            #if pnl > balance:
-            #    balance = 0
-            #    done = True
-            #    return balance
+            if pnl > balance:
+                balance = 0
+                done = True
+                return balance
             if nontrade > 30:
                 return balance * 10
             #append openprice
