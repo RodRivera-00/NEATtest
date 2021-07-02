@@ -38,6 +38,7 @@ def eval_genome(genome, config):
         lowestpnl = 0
         highestpnl = 0
         trades = 0
+        ticks = 0
         for index, data in enumerate(forex):
             ohlcv = data.split(',')
             #print(f'Date: {ohlcv[0]}, Open: {ohlcv[1]}, High: {ohlcv[2]}, Low: {ohlcv[3]}, Close: {ohlcv[4]}, VBTC: {ohlcv[5]}, VUSDT: {ohlcv[6]}')
@@ -58,12 +59,15 @@ def eval_genome(genome, config):
             #append open trade
             #append pnl
             if position == 0:
+                ticks = 0
                 nontrade += 1
                 pnl = 0
             if position == 1 :
+                ticks += 1
                 nontrade = 0
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
             if position == -1:
+                ticks += 1
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
             if pnl < amount:
@@ -114,7 +118,7 @@ def eval_genome(genome, config):
             else:
                 if round(trade[0]) != 0:
                     balance -= 1
-                if round(trade[0]) == 0 and pnl != 0:
+                if round(trade[0]) == 0 and pnl != 0 and ticks > 10:
                     #add reward for every closing trade
                     balance += 1
                     openprice = 0
