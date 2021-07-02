@@ -103,9 +103,10 @@ def eval_genome(genome, config):
             #close position
             else:
                 if round(trade[0]) != 0:
-                    balance -= 10
+                    balance -= 1
                 if round(trade[0]) == 0 and pnl != 0:
                     #add reward for every closing trade
+                    balance += 1
                     openprice = 0
                     balance = balance + pnl
                     #print(balance)
