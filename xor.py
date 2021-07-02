@@ -91,6 +91,8 @@ def eval_genome(genome, config):
             #if round(trade[0]) < 0:
             #print(f'Data - {round(trade[0])}')
             #print(round(opentrade) != round(closetrade))
+            if amt > balance:
+                return -1 * amt
             if position == 0:
                 #check if both 0 or 1
                 if round(trade) == 1:
