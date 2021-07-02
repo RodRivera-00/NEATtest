@@ -82,36 +82,38 @@ def eval_genome(genome, config):
             ohlcv.append(openprice)
             #append balance
             ohlcv.append(balance)
-            closetrade, openlong, openshort = net.activate(ohlcv)
-            #print(f'Data - {round(closetrade)} {round(openlong)} {round(openshort)}')
+            trade = net.activate(ohlcv)
+            #if round(trade[0]) < 0:
+            #print(f'Data - {round(trade[0])}')
             #print(round(opentrade) != round(closetrade))
             if position == 0:
                 #check if both 0 or 1
-                if round(openlong) != round(openshort):
-                    #open long
-                    if round(openlong) > 0:
-                        position = 1
-                        openprice = ohlcv[4]
-                        amount = balance * 0.05
-                        balance -= amount * 0.003
-                    #open short
-                    if round(openshort) > 0:
-                        position = -1
-                        openprice = ohlcv[4]
-                        amount = balance * 0.05
-                        balance -= amount * 0.003
-                    #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
+                if round(trade[0]) == 1:
+                    position = 1
+                    openprice = ohlcv[4]
+                    amount = balance * 0.05
+                    balance -= amount * 0.003
+                #open short
+                if round(trade[0]) == -1:
+                    position = -1
+                    openprice = ohlcv[4]
+                    amount = balance * 0.05
+                    balance -= amount * 0.003
+                #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
-            if round(position) != 0 and round(closetrade) == 1 and pnl != 0:
-                #add reward for every closing trade
-                openprice = 0
-                balance = balance + pnl
-                #print(balance)
-                position = 0
-                amount = 0
-                if balance > highest:
-                    highest = balance
-                #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
+            else:
+                if round(trade[0]) != 0:
+                    balance -= 10
+                if round(trade[0]) == 0 and pnl != 0:
+                    #add reward for every closing trade
+                    openprice = 0
+                    balance = balance + pnl
+                    #print(balance)
+                    position = 0
+                    amount = 0
+                    if balance > highest:
+                        highest = balance
+                    #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
             if balance < 1:
                 balance = 0   
         #print(balance)
@@ -139,13 +141,16 @@ def run():
     pop.add_reporter(neat.StdOutReporter(True))
     pop.add_reporter(neat.Checkpointer(100))
     #pop = neat.Checkpointer.restore_checkpoint('neat-checkpoint-855.gz')
+
     pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
     winner = pop.run(pe.evaluate)
 
     # Save the winner.
     with open('winner', 'wb') as f:
         pickle.dump(winner, f)
-
+    visualize.draw_net(config, winner, True, node_names=node_names)
+    visualize.plot_stats(stats, ylog=False, view=True)
+    visualize.plot_species(stats, view=True)
     print(winner)
 
 
