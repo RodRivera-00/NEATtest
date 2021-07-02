@@ -37,7 +37,7 @@ def eval_genome(genome, config):
         amount = 0
         lowestpnl = 0
         highestpnl = 0
-        trades = 0
+        #trades = 0
         ticks = 0
         for index, data in enumerate(forex):
             ohlcv = data.split(',')
@@ -101,7 +101,7 @@ def eval_genome(genome, config):
             if position == 0:
                 #check if both 0 or 1
                 if round(trade[0]) == 1:
-                    trades += 1
+                    #trades += 1
                     position = 1
                     openprice = ohlcv[4]
                     amount = balance * 0.05
