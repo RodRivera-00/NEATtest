@@ -80,38 +80,38 @@ def eval_genome(genome, config):
             if pnl > balance:
                 balance = 0
                 done = True
-                return balance
+                return balance + pnl
             if nontrade > 30:
                 return balance * 10
             #append openprice
             ohlcv.append(openprice)
             #append balance
             ohlcv.append(balance)
-            trade = net.activate(ohlcv)
+            trade, amt = net.activate(ohlcv)
             #if round(trade[0]) < 0:
             #print(f'Data - {round(trade[0])}')
             #print(round(opentrade) != round(closetrade))
             if position == 0:
                 #check if both 0 or 1
-                if round(trade[0]) == 1:
+                if round(trade) == 1:
                     #trades += 1
                     position = 1
                     openprice = ohlcv[4]
-                    amount = 100
+                    amount = amt
                     balance -= amount * 0.003
                 #open short
-                if round(trade[0]) == -1:
+                if round(trade) == -1:
                     #trades += 1
                     position = -1
                     openprice = ohlcv[4]
-                    amount = 100
+                    amount = amt
                     balance -= amount * 0.003
                 #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
             else:
                 #if round(trade[0]) != 0:
                     #balance -= 1
-                if round(trade[0]) == 0 and pnl != 0 and ticks > 10:
+                if round(trade) == 0 and pnl != 0 and ticks > 10:
                 #add reward for every closing trade
                 #balance += 1
                     openprice = 0
