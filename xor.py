@@ -70,13 +70,13 @@ def eval_genome(genome, config):
                 ticks += 1
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
-            if pnl < amount:
-                position  = 0
-                openprice = 0
-                balance = balance + pnl
-                amount = 0
-                if balance > highest:
-                    highest = balance
+            #if pnl < amount:
+            #    position  = 0
+            #    openprice = 0
+            #    balance = balance + pnl
+            #    amount = 0
+            #    if balance > highest:
+            #        highest = balance
             if lowestpnl > pnl:
                 lowestpnl = pnl
             if pnl > highestpnl:
@@ -84,12 +84,12 @@ def eval_genome(genome, config):
             ohlcv.append(pnl)
             ohlcv.append(position)
             #break if pnl < balance
-            if pnl > balance:
-                balance = 0
-                done = True
-                return balance
+            #if pnl > balance:
+            #    balance = 0
+            #    done = True
+            #    return balance
             if nontrade > 30:
-                return -5000
+                return balance * 10
             #append openprice
             ohlcv.append(openprice)
             #append balance
@@ -104,14 +104,14 @@ def eval_genome(genome, config):
                     #trades += 1
                     position = 1
                     openprice = ohlcv[4]
-                    amount = balance * 0.05
+                    amount = 100
                     balance -= amount * 0.003
                 #open short
                 if round(trade[0]) == -1:
                     #trades += 1
                     position = -1
                     openprice = ohlcv[4]
-                    amount = balance * 0.05
+                    amount = 100
                     balance -= amount * 0.003
                 #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
@@ -129,12 +129,12 @@ def eval_genome(genome, config):
                     if balance > highest:
                         highest = balance
                     #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-            if balance < 1:
-                balance = 0   
+            #if balance < 1:
+            #    balance = 0   
         #print(balance)
         done = True
-    if balance < 1000:
-        balance = -1000
+    #if balance < 1000:
+    #    balance = -1000
     return balance
 
 
