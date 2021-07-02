@@ -88,13 +88,13 @@ def eval_genome(genome, config):
                 #check if both 0 or 1
                 if round(openlong) != round(openshort):
                     #open long
-                    if openlong > openshort:
+                    if openlong > 0:
                         position = 1
                         openprice = ohlcv[4]
                         amount = balance * 0.05
                         balance -= amount * 0.003
                     #open short
-                    if openshort > openlong:
+                    if openshort > 0:
                         position = -1
                         openprice = ohlcv[4]
                         amount = balance * 0.05
