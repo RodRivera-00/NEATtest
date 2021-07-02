@@ -108,7 +108,7 @@ def eval_genome(genome, config):
                     balance -= amount * 0.003
                 #open short
                 if round(trade[0]) == -1:
-                    trades += 1
+                    #trades += 1
                     position = -1
                     openprice = ohlcv[4]
                     amount = balance * 0.05
@@ -135,7 +135,7 @@ def eval_genome(genome, config):
         done = True
     if balance < 1000:
         balance = -1000
-    return balance + trades
+    return balance
 
 
 def eval_genomes(genomes, config):
