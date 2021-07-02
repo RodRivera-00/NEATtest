@@ -24,7 +24,7 @@ forex = forex[::-1]
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
-    balance = 10000
+    balance = 1000
     pnl = 0
     fitness = 0
     highest = balance
@@ -70,13 +70,6 @@ def eval_genome(genome, config):
                 ticks += 1
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
-            if pnl < amount:
-                position  = 0
-                openprice = 0
-                balance = balance + pnl
-                amount = 0
-                if balance > highest:
-                    highest = balance
             if lowestpnl > pnl:
                 lowestpnl = pnl
             if pnl > highestpnl:
@@ -116,11 +109,11 @@ def eval_genome(genome, config):
                 #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
             else:
-                if round(trade[0]) != 0:
-                    balance -= 1
+                #if round(trade[0]) != 0:
+                    #balance -= 1
                 if round(trade[0]) == 0 and pnl != 0 and ticks > 10:
-                    #add reward for every closing trade
-                    balance += 1
+                #add reward for every closing trade
+                #balance += 1
                     openprice = 0
                     balance = balance + pnl
                     #print(balance)
@@ -128,13 +121,13 @@ def eval_genome(genome, config):
                     amount = 0
                     if balance > highest:
                         highest = balance
-                    #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-            #if balance < 1:
-            #    balance = 0   
+                #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
+            if balance < 1:
+                balance = 0   
         #print(balance)
         done = True
-    #if balance < 1000:
-    #    balance = -1000
+    if balance < 1000:
+        balance = -1000
     return balance
 
 
