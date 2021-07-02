@@ -55,22 +55,29 @@ def eval_genome(genome, config):
             ohlcv = ohlcv + prev2
             #print(ohlcv)
             #append open trade
-            ohlcv.append(position)
             #append pnl
+            if position == 0:
+                nontrade += 1
+                pnl = 0
             if position == 1 :
                 nontrade = 0
                 pnl = (ohlcv[4] - openprice) * (amount / ohlcv[4]) * 100
             if position == -1:
                 nontrade = 0
                 pnl = (openprice - ohlcv[4]) * (amount / ohlcv[4]) * 100
-            if position == 0:
-                nontrade += 1
-                pnl = 0
+            if pnl < amount:
+                position  = 0
+                openprice = 0
+                balance = balance + pnl
+                amount = 0
+                if balance > highest:
+                    highest = balance
             if lowestpnl > pnl:
                 lowestpnl = pnl
             if pnl > highestpnl:
                 highestpnl = pnl
             ohlcv.append(pnl)
+            ohlcv.append(position)
             #break if pnl < balance
             if pnl > balance:
                 balance = 0
