@@ -24,7 +24,7 @@ forex = forex[::-1]
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
-    balance = 10000000
+    balance = 10000
     pnl = 0
     fitness = 0
     highest = balance
