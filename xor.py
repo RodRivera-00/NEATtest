@@ -113,7 +113,7 @@ def eval_genome(genome, config):
             else:
                 #if round(trade[0]) != 0:
                     #balance -= 1
-                if round(trade) == 0 and pnl != 0 and ticks > 30:
+                if round(trade) == 0 and pnl != 0 and ticks > 15:
                 #add reward for every closing trade
                 #balance += 1
                     openprice = 0
