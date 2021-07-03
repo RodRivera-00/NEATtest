@@ -87,7 +87,7 @@ def eval_genome(genome, config):
             ohlcv.append(openprice)
             #append balance
             ohlcv.append(balance)
-            trade = net.activate(ohlcv)
+            trade = net.activate(ohlcv)[0]
             #if round(trade[0]) < 0:
             #print(f'Data - {round(trade[0])}')
             #print(round(opentrade) != round(closetrade))
