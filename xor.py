@@ -97,14 +97,14 @@ def eval_genome(genome, config):
                     trades += 1
                     position = 1
                     openprice = ohlcv[4]
-                    amount = balance * 0.1
+                    amount = round(balance * 0.1,2)
                     balance -= amount * 0.003
                 #open short
                 if round(trade) == -1:
                     trades += 1
                     position = -1
                     openprice = ohlcv[4]
-                    amount = balance * 0.1
+                    amount = round(balance * 0.1,2)
                     balance -= amount * 0.003
                 #print(f'New position -- Open Price: {ohlcv[4]} Position: {position} Amount: {amount}')
             #close position
