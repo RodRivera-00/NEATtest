@@ -120,7 +120,7 @@ def eval_genome(genome, config):
                     if pnl > 0:
                         wins += 1
                     else:
-                        lose += 1
+                        wins -= 1
                     balance = balance + pnl
                     pnl = 0
                     #print(balance)
@@ -137,6 +137,8 @@ def eval_genome(genome, config):
         balance = -1000
     if trades < 152:
         balance -= 5000
+    if wins / trades < 0.75:
+        balance = sqrt(balance)
     return balance
 
 
