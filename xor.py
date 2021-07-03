@@ -19,11 +19,12 @@ file1 = open('processed.csv', 'r')
 forex = file1.readlines()
 forex = [i.strip() for i in forex]
 forex = forex[::-1]
-
+generation = 0
 
 
 def eval_genome(genome, config):
     net = neat.nn.FeedForwardNetwork.create(genome, config)
+    #print(pickle.dump(net,))
     balance = 1000
     pnl = 0
     fitness = 0
@@ -129,8 +130,8 @@ def eval_genome(genome, config):
                     if balance > highest:
                         highest = balance
                 #print(f'Close position -- Close Price: {ohlcv[4]} PnL: {pnl} Balance: {balance}')
-            if balance < 1:
-                balance = 0   
+            if balance <= 5:
+                break
         #print(balance)
         done = True
     if balance < 1000:
@@ -143,8 +144,19 @@ def eval_genome(genome, config):
 
 
 def eval_genomes(genomes, config):
+    highest = None
+    global generation
+    generation += 1
     for genome_id, genome in genomes:
-        genome.fitness = eval_genome(genome, config)
+        balance = eval_genome(genome, config)
+        genome.fitness = balance
+        if highest == None:
+            highest = genome
+        if genome.fitness > highest.fitness:
+            highest = genome
+    with open(f'gen{generation}', 'wb') as f:
+        pickle.dump(highest, f)
+    #print(highest.fitness)
 def run():
     # Load the config file, which is assumed to live in
     # the same directory as this script.
@@ -161,8 +173,8 @@ def run():
     pop.add_reporter(neat.Checkpointer(100))
     #pop = neat.Checkpointer.restore_checkpoint('neat-checkpoint-855.gz')
 
-    pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genome)
-    winner = pop.run(pe.evaluate)
+    #pe = neat.ParallelEvaluator(multiprocessing.cpu_count(), eval_genomes)
+    winner = pop.run(eval_genomes, 500)
 
     # Save the winner.
     with open('winner', 'wb') as f:
