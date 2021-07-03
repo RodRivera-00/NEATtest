@@ -138,7 +138,7 @@ def eval_genome(genome, config):
     if trades < 152:
         balance -= 5000
     if wins / trades < 0.75:
-        balance = sqrt(balance)
+        balance = math.sqrt(balance)
     return balance
 
 
